@@ -1,9 +1,13 @@
 select 
     customer_id
     , age
-    , gender
+    , case 
+        when gender in ('M', 'Male') then 'M'
+        when gender in ('F', 'Female') then 'F'
+        else 'Other'
+    end as gender
     , email
     , registration_date
-    , is_vip_member
+    , to_boolean(lower(is_vip_member)) as is_vip_member
     , preferred_scare_level
 from {{ source('PEOPLE', 'CUSTOMERS') }}
